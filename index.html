@@ -1,218 +1,446 @@
-<!DOCTYPE HTML>
-<!--
-	Massively by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
-<html>
-	<head>
-		<title>MD Takrim Areefin — Aspiring AI & Cloud Engineer</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" href="assets/css/main.css" />
-		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
-	</head>
-	<body class="is-preload">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>MD Takrim Areefin — AI & Cloud Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@300;400;500;700;800&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --white: #fafaf8;
+  --off: #f2f0ec;
+  --dark: #0c0f1a;
+  --dark2: #111827;
+  --ink: #1a1a2e;
+  --muted: #6b7280;
+  --border-light: rgba(0,0,0,0.08);
+  --border-dark: rgba(255,255,255,0.08);
+  --blue: #2563eb;
+  --cyan: #0891b2;
+  --violet: #7c3aed;
+}
 
-		<!-- Wrapper -->
-			<div id="wrapper" class="fade-in">
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Cabinet Grotesk',sans-serif;overflow-x:hidden;cursor:none;background:var(--white);}
 
-				<!-- Intro -->
-					<div id="intro">
-						<h1>MD Takrim<br />
-						Areefin</h1>
-						<p>
-							Aspiring AI Engineer · Cloud Architect · Data Scientist<br /><br />
-							Cambridge International Education (CAIE) candidate — currently pursuing A Levels in 
-							Physics, Chemistry &amp; Computer Science under the <strong>British Council</strong>. 
-							Previously achieved outstanding results across the sciences at Cambridge O Level (IGCSE), 
-							including Physics, Chemistry, Biology, Computer Science &amp; Additional Mathematics.<br /><br />
-							Building expertise in Python,Statistics for MlOps , Devops  Linux &amp; Cloud Computing on the path to a future in 
-							AI architecture and AWS engineering. Based in Dhaka, Bangladesh — aiming for the world.
-						</p>
-						<ul class="actions">
-							<li><a href="#header" class="button icon solid solo fa-arrow-down scrolly">Continue</a></li>
-						</ul>
-					</div>
+/* CURSOR */
+.cur{position:fixed;width:8px;height:8px;background:var(--blue);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .2s,height .2s;mix-blend-mode:multiply;}
+.cur-ring{position:fixed;width:32px;height:32px;border:1.5px solid rgba(37,99,235,0.4);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);}
 
-				<!-- Header -->
-					<header id="header">
-						<a href="index.html" class="logo">Takrim Areefin</a>
-					</header>
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:1.2rem 5rem;transition:background .4s,border-color .4s;}
+nav.scrolled{background:rgba(250,250,248,0.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--border-light);}
+.nav-logo{font-family:'DM Mono',monospace;font-size:.85rem;color:var(--ink);text-decoration:none;letter-spacing:.05em;}
+.nav-logo span{color:var(--blue);}
+.nav-links{display:flex;gap:2.5rem;list-style:none;}
+.nav-links a{font-family:'DM Mono',monospace;font-size:.68rem;color:var(--muted);text-decoration:none;letter-spacing:.12em;text-transform:uppercase;transition:color .2s;}
+.nav-links a:hover{color:var(--ink);}
+.nav-cta{padding:.55rem 1.4rem;background:var(--ink);color:#fff;border-radius:100px;font-family:'DM Mono',monospace;font-size:.68rem;text-decoration:none;letter-spacing:.08em;transition:all .2s;}
+.nav-cta:hover{background:var(--blue);transform:translateY(-1px);}
 
-				<!-- Nav -->
-					<nav id="nav">
-						<ul class="links">
-							<li class="active"><a href="index.html">Portfolio</a></li>
-							<li><a href="generic.html">About Me</a></li>
-							<li><a href="elements.html">Skills</a></li>
-						</ul>
-						<ul class="icons">
-							<li><a href="https://x.com/Takrim_Areefin" class="icon brands fa-twitter"><span class="label">Twitter / X</span></a></li>
-							<li><a href="https://www.linkedin.com/in/takrim-areefin-8a7690278/" class="icon brands fa-linkedin"><span class="label">LinkedIn</span></a></li>
-							<li><a href="https://github.com/Txkrm227" class="icon brands fa-github"><span class="label">GitHub</span></a></li>
-						</ul>
-					</nav>
+/* HERO */
+#hero{min-height:100vh;background:var(--white);display:grid;grid-template-columns:1fr 1fr;align-items:center;position:relative;overflow:hidden;}
+.hero-divider{position:absolute;left:50%;top:15%;bottom:15%;width:1px;background:linear-gradient(to bottom,transparent,rgba(0,0,0,.06),transparent);z-index:0;}
 
-				<!-- Main -->
-					<div id="main">
+.hero-left{position:relative;z-index:1;display:flex;align-items:flex-end;justify-content:flex-start;padding:8rem 0 4rem 5rem;min-height:100vh;}
+.hero-img-wrap{position:relative;width:460px;max-width:100%;}
+.hero-img-wrap img{width:100%;display:block;filter:drop-shadow(0 30px 60px rgba(0,0,0,0.1));animation:floatImg 6s ease-in-out infinite;}
+@keyframes floatImg{0%,100%{transform:translateY(0);}50%{transform:translateY(-14px);}}
 
-						<!-- Featured Post -->
-							<article class="post featured">
-								<header class="major">
-									<span class="date">Currently — A Levels 2025/26</span>
-									<h2><a href="#">Cambridge CAIE Student<br />
-									on a Mission</a></h2>
-									<p>
-										Studied under the British Council as a Cambridge International Education (CAIE) candidate. 
-										Completed Cambridge O Levels (GCSE) with distinction across Physics, Chemistry, Biology, 
-										Computer Science, and Additional Mathematics. Now pursuing A Levels with a laser focus 
-										on breaking into the global AI and Cloud industry. Every line of code, every terminal 
-										command, every late-night study session : all part of the plan.
-									</p>
-								</header>
-								<a href="#" class="image main"><img src="images/pic01.jpg" alt="Takrim at a podium speaking" /></a>
-								<ul class="actions special">
-									<li><a href="generic.html" class="button large">More About Me</a></li>
-								</ul>
-							</article>
+.badge-ring{position:absolute;bottom:50px;left:-20px;width:110px;height:110px;}
+.badge-ring svg{animation:spinSlow 14s linear infinite;}
+@keyframes spinSlow{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+.badge-ring-center{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:1.5rem;}
 
-						<!-- Posts -->
-							<section class="posts">
-								<article>
-									<header>
-										<span class="date">Academic Foundation</span>
-										<h2><a href="#">Cambridge O Level<br />
-										Results — CAIE</a></h2>
-									</header>
-									<a href="#" class="image fit"><img src="images/pic02.jpg" alt="" /></a>
-									<p>Completed Cambridge GCSE under the British Council , scoring across Physics, Chemistry, Biology, Computer Science and Additional Mathematics. A foundation built for science, technology and beyond.</p>
-									<ul class="actions special">
-										<li><a href="#" class="button">View Details</a></li>
-									</ul>
-								</article>
-								<article>
-									<header>
-										<span class="date">Technical Skills</span>
-										<h2><a href="#">Python · Linux<br />
-										Add Maths · CS</a></h2>
-									</header>
-									<a href="#" class="image fit"><img src="images/pic03.jpg" alt="" /></a>
-									<p>Proficient in Python programming, Linux command line operations, Additional Mathematics, and Cambridge Computer Science. Actively building projects and expanding knowledge in AI and cloud computing concepts.</p>
-									<ul class="actions special">
-										<li><a href="elements.html" class="button">See All Skills</a></li>
-									</ul>
-								</article>
-								<article>
-									<header>
-										<span class="date">A Levels — Ongoing</span>
-										<h2><a href="#">Physics · Chemistry<br />
-										Computer Science</a></h2>
-									</header>
-									<a href="#" class="image fit"><img src="images/pic04.jpg" alt="" /></a>
-									<p>Currently navigating A Level sciences under the Cambridge International curriculum. Balancing rigorous academic study with self-directed learning in Data Science, AI, and AWS Cloud infrastructure.</p>
-									<ul class="actions special">
-										<li><a href="#" class="button">Read More</a></li>
-									</ul>
-								</article>
-								<article>
-									<header>
-										<span class="date">Future Goals</span>
-										<h2><a href="#">Targeting Global<br />
-										Universities in AI/CS</a></h2>
-									</header>
-									<a href="#" class="image fit"><img src="images/pic05.jpg" alt="" /></a>
-									<p>Aiming to study BSc Computer Science / Data Science / AI at a top international university after A Levels. Exploring opportunities in the UK, Canada, and beyond — with long-term goals at companies like Amazon AWS.</p>
-									<ul class="actions special">
-										<li><a href="#" class="button">My Vision</a></li>
-									</ul>
-								</article>
-								<article>
-									<header>
-										<span class="date">Self Learning</span>
-										<h2><a href="#">Linux · Terminal<br />
-										Daily Driver</a></h2>
-									</header>
-									<a href="#" class="image fit"><img src="images/pic06.jpg" alt="" /></a>
-									<p>Using Linux as a daily driver — building real-world command line skills beyond the classroom. From file systems to bash scripting, every terminal session is a step closer to my cloud engineering mastery.</p>
-									<ul class="actions special">
-										<li><a href="#" class="button">Details</a></li>
-									</ul>
-								</article>
-								<article>
-									<header>
-										<span class="date">Leadership</span>
-										<h2><a href="#">Public Speaking<br />
-										&amp; Representation</a></h2>
-									</header>
-									<a href="#" class="image fit"><img src="images/pic07.jpg" alt="" /></a>
-									<p>Represented my institution at academic and public events, developing communication and leadership skills alongside technical expertise. Building the full package — not just a coder, but a confident future professional.</p>
-									<ul class="actions special">
-										<li><a href="#" class="button">Read More</a></li>
-									</ul>
-								</article>
-							</section>
+.hero-right{position:relative;z-index:1;padding:8rem 5rem 4rem 3rem;display:flex;flex-direction:column;justify-content:center;min-height:100vh;}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:.5rem;font-family:'DM Mono',monospace;font-size:.63rem;color:var(--blue);letter-spacing:.15em;text-transform:uppercase;margin-bottom:1.8rem;animation:fadeUp .7s ease both;}
+.hero-eyebrow::before{content:'';width:24px;height:1px;background:var(--blue);}
 
-						<!-- Footer -->
-							<footer>
-								<div class="pagination">
-									<a href="#" class="page active">1</a>
-									<a href="#" class="next">Next</a>
-								</div>
-							</footer>
+.hero-name{font-family:'Cabinet Grotesk',sans-serif;font-weight:800;font-size:clamp(2.8rem,5.5vw,5.2rem);line-height:.95;letter-spacing:-.04em;color:var(--ink);animation:fadeUp .7s .08s ease both;}
+.hero-name .grad{background:linear-gradient(135deg,var(--blue),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
 
-					</div>
+.hero-role{margin-top:1.2rem;font-family:'DM Mono',monospace;font-size:.78rem;color:var(--muted);letter-spacing:.06em;animation:fadeUp .7s .16s ease both;}
+.hero-role span{color:var(--ink);}
 
-				<!-- Footer -->
-					<footer id="footer">
-						<section>
-							<h3>Get In Touch</h3>
-							<p>Open to collaborations, university queries, project discussions, or just a good conversation about AI and the future of tech. Reach out anytime.</p>
-							<ul class="actions">
-								<li><a href="mailto:areefintakrim@outlook.com" class="button">Send Email</a></li>
-							</ul>
-						</section>
-						<section class="split contact">
-							<section class="alt">
-								<h3>Location</h3>
-								<p>Dhaka, Bangladesh<br />
-								Open to opportunities worldwide</p>
-							</section>
-							<section>
-								<h3>Education</h3>
-								<p>Cambridge CAIE — British Council<br />
-								A Levels: Physics · Chemistry · CS</p>
-							</section>
-							<section>
-								<h3>Email</h3>
-								<p><a href="mailto:areefintakrim@outlook.com">areefintakrim@outlook.com</a></p>
-							</section>
-							<section>
-								<h3>Social</h3>
-								<ul class="icons alt">
-									<li><a href="https://x.com/Takrim_Areefin" class="icon brands alt fa-twitter"><span class="label">Twitter / X</span></a></li>
-									<li><a href="https://www.linkedin.com/in/takrim-areefin-8a7690278/" class="icon brands alt fa-linkedin"><span class="label">LinkedIn</span></a></li>
-									<li><a href="https://github.com/Txkrm227" class="icon brands alt fa-github"><span class="label">GitHub</span></a></li>
-								</ul>
-							</section>
-						</section>
-					</footer>
+.hero-desc{margin-top:1.5rem;font-size:.97rem;color:var(--muted);line-height:1.85;max-width:420px;animation:fadeUp .7s .22s ease both;}
+.hero-desc strong{color:var(--ink);font-weight:700;}
 
-				<!-- Copyright -->
-					<div id="copyright">
-						<ul><li>&copy; MD Takrim Areefin 2026</li><li>Design: <a href="https://html5up.net">HTML5 UP</a></li></ul>
-					</div>
+.hero-actions{margin-top:2.2rem;display:flex;gap:1rem;flex-wrap:wrap;animation:fadeUp .7s .3s ease both;}
+.btn-dark{padding:.8rem 1.8rem;background:var(--ink);color:#fff;border-radius:6px;font-weight:700;font-size:.85rem;text-decoration:none;transition:all .2s;}
+.btn-dark:hover{background:var(--blue);transform:translateY(-2px);box-shadow:0 12px 30px rgba(37,99,235,.25);}
+.btn-outline{padding:.8rem 1.8rem;background:transparent;color:var(--ink);border:1.5px solid rgba(0,0,0,.15);border-radius:6px;font-weight:500;font-size:.85rem;text-decoration:none;transition:all .2s;}
+.btn-outline:hover{border-color:var(--blue);color:var(--blue);transform:translateY(-2px);}
 
-			</div>
+.hero-socials{margin-top:2.5rem;display:flex;gap:.8rem;flex-wrap:wrap;animation:fadeUp .7s .38s ease both;}
+.soc{display:flex;align-items:center;gap:.4rem;font-family:'DM Mono',monospace;font-size:.63rem;color:var(--muted);text-decoration:none;letter-spacing:.08em;padding:.45rem .9rem;border:1px solid var(--border-light);border-radius:100px;transition:all .2s;}
+.soc:hover{color:var(--blue);border-color:rgba(37,99,235,.3);background:rgba(37,99,235,.04);}
 
-		<!-- Scripts -->
-			<script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/jquery.scrollex.min.js"></script>
-			<script src="assets/js/jquery.scrolly.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
+/* ABOUT */
+#about{background:var(--dark);color:#fff;position:relative;overflow:hidden;}
+#about::before{content:'';position:absolute;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(37,99,235,.1),transparent 70%);top:-200px;right:-200px;pointer-events:none;}
+.section-inner{max-width:1140px;margin:0 auto;padding:7rem 4rem;}
+.label{font-family:'DM Mono',monospace;font-size:.63rem;letter-spacing:.2em;text-transform:uppercase;margin-bottom:.8rem;color:var(--blue);}
+.sec-title{font-family:'Cabinet Grotesk',sans-serif;font-weight:800;font-size:clamp(2rem,4vw,3.2rem);letter-spacing:-.04em;line-height:1;margin-bottom:1rem;}
+.sec-title.light{color:#f0f6ff;}
+.sec-title.dark-col{color:var(--ink);}
+.sec-sub{font-size:.93rem;line-height:1.9;max-width:500px;margin-bottom:3rem;}
+.sec-sub.muted-dark{color:#94a3b8;}
+.sec-sub.muted-light{color:var(--muted);}
 
-	</body>
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start;}
+.about-body p{color:#94a3b8;line-height:1.9;font-size:.93rem;margin-bottom:1.2rem;}
+.about-body p strong{color:#e2e8f0;font-weight:700;}
+
+.about-pic-wrap{position:relative;border-radius:20px;overflow:hidden;border:1px solid rgba(255,255,255,.06);}
+.about-pic-wrap img{width:100%;display:block;filter:grayscale(15%) contrast(1.05);}
+.about-pic-wrap::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(11,15,26,.8) 0%,transparent 50%);}
+.about-pic-caption{position:absolute;bottom:1.5rem;left:1.5rem;right:1.5rem;z-index:1;font-family:'DM Mono',monospace;font-size:.62rem;color:rgba(255,255,255,.55);letter-spacing:.1em;text-transform:uppercase;}
+
+.stats-row{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-top:2rem;}
+.stat{padding:1.5rem;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:14px;transition:all .3s;}
+.stat:hover{border-color:rgba(37,99,235,.3);transform:translateY(-4px);}
+.stat-n{font-family:'Cabinet Grotesk',sans-serif;font-weight:800;font-size:2rem;color:var(--blue);letter-spacing:-.04em;}
+.stat-l{font-family:'DM Mono',monospace;font-size:.6rem;color:#64748b;text-transform:uppercase;letter-spacing:.1em;margin-top:.3rem;}
+
+/* SKILLS */
+#skills{background:var(--off);}
+.skills-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;}
+.sk{padding:2rem;background:var(--white);border:1px solid var(--border-light);border-radius:18px;transition:all .3s;position:relative;overflow:hidden;}
+.sk::before{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--blue),var(--cyan));transform:scaleX(0);transform-origin:left;transition:transform .4s ease;}
+.sk:hover{box-shadow:0 20px 50px rgba(0,0,0,.08);transform:translateY(-6px);border-color:rgba(37,99,235,.15);}
+.sk:hover::before{transform:scaleX(1);}
+.sk-icon{font-size:2rem;margin-bottom:1rem;display:block;}
+.sk-name{font-family:'Cabinet Grotesk',sans-serif;font-weight:800;font-size:1.05rem;color:var(--ink);margin-bottom:.4rem;}
+.sk-desc{font-size:.82rem;color:var(--muted);line-height:1.75;}
+.sk-tags{margin-top:1rem;display:flex;flex-wrap:wrap;gap:.35rem;}
+.tg{padding:.2rem .6rem;background:rgba(37,99,235,.07);border:1px solid rgba(37,99,235,.15);border-radius:4px;font-family:'DM Mono',monospace;font-size:.6rem;color:var(--blue);letter-spacing:.05em;}
+
+/* EDUCATION */
+#education{background:var(--dark2);}
+.edu-cards{display:flex;flex-direction:column;gap:1.2rem;}
+.edu-c{display:grid;grid-template-columns:140px 1fr;gap:2rem;padding:2rem;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:18px;transition:all .3s;align-items:start;}
+.edu-c:hover{border-color:rgba(37,99,235,.3);transform:translateX(6px);}
+.edu-yr{font-family:'DM Mono',monospace;font-size:.63rem;color:var(--blue);text-transform:uppercase;letter-spacing:.1em;padding-top:.2rem;}
+.edu-t{font-family:'Cabinet Grotesk',sans-serif;font-weight:800;font-size:1.1rem;color:#f0f6ff;margin-bottom:.3rem;}
+.edu-inst{font-size:.82rem;color:#38bdf8;margin-bottom:.6rem;}
+.edu-d{font-size:.82rem;color:#64748b;line-height:1.8;}
+.edu-subs{margin-top:.8rem;display:flex;flex-wrap:wrap;gap:.35rem;}
+.tg-dark{padding:.2rem .6rem;background:rgba(37,99,235,.1);border:1px solid rgba(37,99,235,.2);border-radius:4px;font-family:'DM Mono',monospace;font-size:.6rem;color:#60a5fa;letter-spacing:.05em;}
+
+/* GOALS */
+#goals{background:var(--white);}
+.goals-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;}
+.goal{padding:2.5rem;border:1px solid var(--border-light);border-radius:18px;background:var(--off);transition:all .3s;position:relative;overflow:hidden;}
+.goal.span2{grid-column:1/-1;background:linear-gradient(135deg,rgba(37,99,235,.06),rgba(124,58,237,.04));}
+.goal:hover{transform:translateY(-4px);border-color:rgba(37,99,235,.2);box-shadow:0 16px 40px rgba(0,0,0,.07);}
+.goal-num{font-family:'Cabinet Grotesk',sans-serif;font-weight:800;font-size:5rem;color:rgba(37,99,235,.07);line-height:1;position:absolute;top:.5rem;right:1.5rem;letter-spacing:-.05em;}
+.goal-ico{font-size:1.8rem;margin-bottom:1rem;}
+.goal-t{font-family:'Cabinet Grotesk',sans-serif;font-weight:800;font-size:1.15rem;color:var(--ink);margin-bottom:.5rem;}
+.goal-d{font-size:.83rem;color:var(--muted);line-height:1.8;}
+
+/* CONTACT */
+#contact{background:var(--dark);}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;}
+.contact-links{display:flex;flex-direction:column;gap:1rem;}
+.c-item{display:flex;align-items:center;gap:1rem;padding:1.2rem 1.5rem;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:14px;text-decoration:none;color:#e2e8f0;transition:all .3s;}
+.c-item:hover{border-color:rgba(37,99,235,.4);transform:translateX(6px);background:rgba(37,99,235,.05);}
+.c-icon{font-size:1.3rem;flex-shrink:0;}
+.c-lbl{font-family:'DM Mono',monospace;font-size:.6rem;color:#64748b;text-transform:uppercase;letter-spacing:.12em;}
+.c-val{font-size:.88rem;font-weight:500;margin-top:.1rem;}
+
+/* FOOTER */
+footer{text-align:center;padding:2rem 4rem;background:var(--dark);border-top:1px solid rgba(255,255,255,.05);font-family:'DM Mono',monospace;font-size:.63rem;color:#334155;letter-spacing:.05em;}
+footer a{color:var(--blue);text-decoration:none;}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px);}to{opacity:1;transform:translateY(0);}}
+.reveal{opacity:0;transform:translateY(36px);transition:opacity .7s ease,transform .7s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-track{background:var(--white);}
+::-webkit-scrollbar-thumb{background:var(--blue);border-radius:2px;}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  nav{padding:1.2rem 1.5rem;}
+  .nav-links,.nav-cta{display:none;}
+  #hero{grid-template-columns:1fr;min-height:auto;}
+  .hero-left{padding:7rem 1.5rem 1rem;min-height:auto;justify-content:center;}
+  .hero-img-wrap{width:280px;margin:0 auto;}
+  .hero-right{padding:1rem 1.5rem 5rem;min-height:auto;}
+  .hero-divider{display:none;}
+  .section-inner{padding:5rem 1.5rem;}
+  .about-grid,.contact-grid{grid-template-columns:1fr;gap:2.5rem;}
+  .skills-grid{grid-template-columns:1fr 1fr;}
+  .goals-grid{grid-template-columns:1fr;}
+  .goal.span2{grid-column:1;}
+  .edu-c{grid-template-columns:1fr;}
+}
+@media(max-width:600px){
+  .skills-grid{grid-template-columns:1fr;}
+  .stats-row{grid-template-columns:1fr 1fr;}
+}
+</style>
+</head>
+<body>
+
+<div class="cur" id="cur"></div>
+<div class="cur-ring" id="curRing"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nav-logo">TA<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#goals">Goals</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="mailto:areefintakrim@outlook.com" class="nav-cta">Hire Me</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-divider"></div>
+
+  <div class="hero-left">
+    <div class="hero-img-wrap">
+      <img src="images/takrim-art.png" alt="MD Takrim Areefin"/>
+      <div class="badge-ring">
+        <svg viewBox="0 0 110 110" width="110" height="110">
+          <defs><path id="circ" d="M 55,55 m -37,0 a 37,37 0 1,1 74,0 a 37,37 0 1,1 -74,0"/></defs>
+          <text font-family="DM Mono,monospace" font-size="9" fill="#2563eb" letter-spacing="3">
+            <textPath href="#circ">CAMBRIDGE CAIE · BRITISH COUNCIL · DHAKA ·</textPath>
+          </text>
+        </svg>
+        <div class="badge-ring-center">🎓</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="hero-eyebrow">Based in Dhaka, Bangladesh</div>
+    <h1 class="hero-name">
+      MD Takrim<br/>
+      <span class="grad">Areefin</span>
+    </h1>
+    <div class="hero-role">
+      <span>Aspiring</span> AI Engineer · Cloud Architect · Data Scientist
+    </div>
+    <p class="hero-desc">
+      <strong>Cambridge International Education (CAIE)</strong> candidate under the
+      <strong>British Council</strong> — building the skills and portfolio to enter
+      the world of AI, cloud infrastructure, and data science at a global level.
+      <br/><br/>
+      Dhaka to the world. <strong>One commit at a time.</strong>
+    </p>
+    <div class="hero-actions">
+      <a href="#about" class="btn-dark">Explore My Profile</a>
+      <a href="mailto:areefintakrim@outlook.com" class="btn-outline">Get In Touch</a>
+    </div>
+    <div class="hero-socials">
+      <a href="https://github.com/Txkrm227" class="soc" target="_blank">⬡ GitHub</a>
+      <a href="https://www.linkedin.com/in/takrim-areefin-8a7690278/" class="soc" target="_blank">in LinkedIn</a>
+      <a href="https://x.com/Takrim_Areefin" class="soc" target="_blank">✦ X / Twitter</a>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-inner">
+    <div class="about-grid">
+      <div class="reveal">
+        <div class="label">// about me</div>
+        <h2 class="sec-title light">The Story<br/>So Far</h2>
+        <div class="about-body">
+          <p>I'm a <strong>Cambridge International student</strong> from Dhaka, Bangladesh — pursuing A Levels in Physics, Chemistry, and Computer Science under the <strong>British Council</strong>.</p>
+          <p>My obsession lives at the intersection of <strong>Artificial Intelligence, Cloud Computing, and Data Science</strong>. I don't just study — I build. Linux is my daily driver. Python is my language. AWS is my target.</p>
+          <p>The goal is a world-class university, a BSc in CS or AI, and ultimately — designing and deploying production AI systems at companies like <strong>Amazon AWS</strong>.</p>
+          <p>Every terminal session, every dataset, every late-night study session. <strong>All part of the plan.</strong></p>
+        </div>
+        <div class="stats-row">
+          <div class="stat"><div class="stat-n">5+</div><div class="stat-l">O Level Subjects</div></div>
+          <div class="stat"><div class="stat-n">3</div><div class="stat-l">A Level Subjects</div></div>
+          <div class="stat"><div class="stat-n">AWS</div><div class="stat-l">Target Path</div></div>
+          <div class="stat"><div class="stat-n">∞</div><div class="stat-l">Ambition</div></div>
+        </div>
+      </div>
+      <div class="reveal" style="transition-delay:.15s">
+        <div class="about-pic-wrap">
+          <img src="images/takrim-podium.jpg" alt="Takrim speaking at a podium"/>
+          <div class="about-pic-caption">Public Speaking · Institutional Representation</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-inner">
+    <div class="label reveal" style="color:var(--blue)">// technical skills</div>
+    <h2 class="sec-title dark-col reveal">What I Bring</h2>
+    <p class="sec-sub muted-light reveal">Academic foundations combined with self-directed, real-world technical skills.</p>
+    <div class="skills-grid">
+      <div class="sk reveal">
+        <span class="sk-icon">🐍</span>
+        <div class="sk-name">Python</div>
+        <div class="sk-desc">Writing clean, structured Python — from scripting to data pipelines. The language of AI and ML, and I'm building fluency every day.</div>
+        <div class="sk-tags"><span class="tg">scripting</span><span class="tg">data</span><span class="tg">automation</span></div>
+      </div>
+      <div class="sk reveal" style="transition-delay:.08s">
+        <span class="sk-icon">🐧</span>
+        <div class="sk-name">Linux</div>
+        <div class="sk-desc">Linux as a daily driver — terminal fluency, bash scripting, file systems, and the command-line muscle every cloud engineer needs.</div>
+        <div class="sk-tags"><span class="tg">bash</span><span class="tg">terminal</span><span class="tg">systems</span></div>
+      </div>
+      <div class="sk reveal" style="transition-delay:.16s">
+        <span class="sk-icon">☁️</span>
+        <div class="sk-name">Cloud Computing</div>
+        <div class="sk-desc">Actively learning AWS infrastructure and cloud fundamentals. Building toward certifications as the core of my long-term roadmap.</div>
+        <div class="sk-tags"><span class="tg">AWS</span><span class="tg">infrastructure</span><span class="tg">DevOps</span></div>
+      </div>
+      <div class="sk reveal" style="transition-delay:.04s">
+        <span class="sk-icon">📐</span>
+        <div class="sk-name">Additional Mathematics</div>
+        <div class="sk-desc">Strong Add Maths from O Levels — the mathematical backbone behind machine learning, statistics, and data science algorithms.</div>
+        <div class="sk-tags"><span class="tg">calculus</span><span class="tg">stats</span><span class="tg">algebra</span></div>
+      </div>
+      <div class="sk reveal" style="transition-delay:.12s">
+        <span class="sk-icon">💻</span>
+        <div class="sk-name">Computer Science</div>
+        <div class="sk-desc">Cambridge CAIE CS — algorithms, data structures, networking, and computational thinking at an internationally benchmarked level.</div>
+        <div class="sk-tags"><span class="tg">algorithms</span><span class="tg">networking</span><span class="tg">CAIE</span></div>
+      </div>
+      <div class="sk reveal" style="transition-delay:.2s">
+        <span class="sk-icon">🎤</span>
+        <div class="sk-name">Communication</div>
+        <div class="sk-desc">Public speaking and institutional representation — because the best engineers communicate their ideas as well as they build them.</div>
+        <div class="sk-tags"><span class="tg">leadership</span><span class="tg">speaking</span><span class="tg">teamwork</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="section-inner">
+    <div class="label reveal">// education</div>
+    <h2 class="sec-title light reveal">Academic<br/>Journey</h2>
+    <p class="sec-sub muted-dark reveal">Cambridge International standards — the globally recognised benchmark for excellence.</p>
+    <div class="edu-cards">
+      <div class="edu-c reveal">
+        <div class="edu-yr">2025 — Present</div>
+        <div>
+          <div class="edu-t">Cambridge International A Levels</div>
+          <div class="edu-inst">British Council · Cambridge Assessment International Education (CAIE)</div>
+          <div class="edu-d">Currently pursuing A Levels with full focus on breaking into the global AI and Cloud industry. Balancing rigorous Cambridge academics with intensive self-directed learning in Python, Linux, and AWS cloud fundamentals.</div>
+          <div class="edu-subs">
+            <span class="tg-dark">Physics</span><span class="tg-dark">Chemistry</span><span class="tg-dark">Computer Science</span>
+          </div>
+        </div>
+      </div>
+      <div class="edu-c reveal" style="transition-delay:.12s">
+        <div class="edu-yr">Completed June 2025</div>
+        <div>
+          <div class="edu-t">Cambridge O Level (IGCSE)</div>
+          <div class="edu-inst">British Council · CAIE · Outstanding Results Across All Sciences</div>
+          <div class="edu-d">Completed the internationally recognised Cambridge IGCSE qualification — achieving across all science and mathematics subjects. A foundation built for science, technology, and global ambition.</div>
+          <div class="edu-subs">
+            <span class="tg-dark">Physics</span><span class="tg-dark">Chemistry</span><span class="tg-dark">Biology</span><span class="tg-dark">Computer Science</span><span class="tg-dark">Additional Mathematics</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GOALS -->
+<section id="goals">
+  <div class="section-inner">
+    <div class="label reveal" style="color:var(--blue)">// the roadmap</div>
+    <h2 class="sec-title dark-col reveal">Not a Dream.<br/>A Plan.</h2>
+    <p class="sec-sub muted-light reveal">With steps, deadlines, and the work ethic to back it up.</p>
+    <div class="goals-grid">
+      <div class="goal span2 reveal">
+        <div class="goal-num">01</div>
+        <div class="goal-ico">🎓</div>
+        <div class="goal-t">World-Class University — BSc Computer Science / AI / Data Science</div>
+        <div class="goal-d">Targeting top international universities in the UK, Canada, or beyond. Building an academic profile and technical portfolio that makes the application undeniable. Every grade, every project, every certification — building the case.</div>
+      </div>
+      <div class="goal reveal" style="transition-delay:.1s">
+        <div class="goal-num">02</div>
+        <div class="goal-ico">☁️</div>
+        <div class="goal-t">AWS Cloud Engineer</div>
+        <div class="goal-d">Earn AWS certifications, build real cloud projects. The path to cloud architecture starts now — not after graduation.</div>
+      </div>
+      <div class="goal reveal" style="transition-delay:.2s">
+        <div class="goal-num">03</div>
+        <div class="goal-ico">🤖</div>
+        <div class="goal-t">AI Architecture at Scale</div>
+        <div class="goal-d">Long-term: designing and deploying production AI systems at companies like Amazon. Building toward it one skill at a time.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-inner">
+    <div class="contact-grid">
+      <div class="reveal">
+        <div class="label">// get in touch</div>
+        <h2 class="sec-title light">Let's<br/>Connect</h2>
+        <p class="sec-sub muted-dark">Open to collaborations, university discussions, project ideas, or just a conversation about AI and the future of tech. Always reachable.</p>
+      </div>
+      <div class="contact-links reveal" style="transition-delay:.15s">
+        <a href="mailto:areefintakrim@outlook.com" class="c-item">
+          <span class="c-icon">✉️</span>
+          <div><div class="c-lbl">Email</div><div class="c-val">areefintakrim@outlook.com</div></div>
+        </a>
+        <a href="https://www.linkedin.com/in/takrim-areefin-8a7690278/" target="_blank" class="c-item">
+          <span class="c-icon">💼</span>
+          <div><div class="c-lbl">LinkedIn</div><div class="c-val">takrim-areefin-8a7690278</div></div>
+        </a>
+        <a href="https://github.com/Txkrm227" target="_blank" class="c-item">
+          <span class="c-icon">⬡</span>
+          <div><div class="c-lbl">GitHub</div><div class="c-val">Txkrm227</div></div>
+        </a>
+        <a href="https://x.com/Takrim_Areefin" target="_blank" class="c-item">
+          <span class="c-icon">✦</span>
+          <div><div class="c-lbl">X / Twitter</div><div class="c-val">@Takrim_Areefin</div></div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 MD Takrim Areefin &nbsp;·&nbsp; Cambridge CAIE · British Council · Dhaka, Bangladesh &nbsp;·&nbsp; <a href="mailto:areefintakrim@outlook.com">areefintakrim@outlook.com</a></p>
+</footer>
+
+<script>
+const cur=document.getElementById('cur'),ring=document.getElementById('curRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
+(function anim(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(anim);})();
+document.querySelectorAll('a,button').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cur.style.width='18px';cur.style.height='18px';ring.style.width='54px';ring.style.height='54px';});
+  el.addEventListener('mouseleave',()=>{cur.style.width='8px';cur.style.height='8px';ring.style.width='32px';ring.style.height='32px';});
+});
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',scrollY>40);});
+const revs=document.querySelectorAll('.reveal');
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});
+},{threshold:0.1});
+revs.forEach(el=>obs.observe(el));
+</script>
+</body>
 </html>
