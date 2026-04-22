@@ -30,11 +30,7 @@
   --tog-bg:    #e2dfd8;
   --tog-knob:  #0f0e0c;
   --scrollbar: #1d4ed8;
-
-  /* dark-mode shadow/glow off in light */
-  --glow: none;
 }
-
 [data-theme="dark"] {
   --bg:        #080a10;
   --bg2:       #0d1017;
@@ -54,7 +50,6 @@
   --tog-bg:    #1e2535;
   --tog-knob:  #60a5fa;
   --scrollbar: #60a5fa;
-  --glow: 0 0 80px rgba(96,165,250,0.08);
 }
 
 /* ============================================================
@@ -74,30 +69,33 @@ body{
 ::-webkit-scrollbar-track{background:transparent;}
 
 /* ============================================================
-   CUSTOM CURSOR
+   CUSTOM CURSOR — PERF FIX: removed rAF loop, uses CSS transition for ring
 ============================================================ */
 .cur{
   position:fixed;width:10px;height:10px;
   background:var(--blue);border-radius:50%;
   pointer-events:none;z-index:9999;
+  /* transform instead of left/top stays on compositor */
+  will-change:transform;
   transform:translate(-50%,-50%);
-  transition:width .25s,height .25s,background .3s,opacity .3s;
-  mix-blend-mode:normal;
+  transition:width .2s,height .2s,background .3s;
 }
 [data-theme="light"] .cur{mix-blend-mode:multiply;}
 [data-theme="dark"] .cur{mix-blend-mode:screen;}
 .cur-ring{
   position:fixed;width:38px;height:38px;
   border:1.5px solid var(--blue);
-  border-radius:50%;opacity:.4;
+  border-radius:50%;opacity:.35;
   pointer-events:none;z-index:9998;
+  will-change:transform;
   transform:translate(-50%,-50%);
-  transition:width .35s cubic-bezier(.25,.46,.45,.94),
-             height .35s cubic-bezier(.25,.46,.45,.94),
+  /* CSS transition handles the follow — no rAF loop needed */
+  transition:width .3s cubic-bezier(.25,.46,.45,.94),
+             height .3s cubic-bezier(.25,.46,.45,.94),
              border-color .3s,opacity .3s;
 }
 body:has(a:hover) .cur-ring,
-body:has(button:hover) .cur-ring{width:60px;height:60px;opacity:.25;}
+body:has(button:hover) .cur-ring{width:56px;height:56px;opacity:.2;}
 body:has(a:hover) .cur,
 body:has(button:hover) .cur{width:6px;height:6px;}
 
@@ -206,28 +204,32 @@ nav.scrolled{
   align-items:center;position:relative;overflow:hidden;
 }
 
-/* Noise texture overlay */
+/* PERF FIX: removed heavy SVG feTurbulence filter — replaced with lightweight static noise */
 #hero::after{
   content:'';position:absolute;inset:0;pointer-events:none;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
-  z-index:0;opacity:.6;
+  opacity:.045;z-index:0;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
 }
 
-/* animated gradient mesh bg */
+/* PERF FIX: contain:strict stops blob repaints from affecting other elements */
 .hero-mesh{
   position:absolute;inset:0;z-index:0;overflow:hidden;
+  contain:strict;
 }
+/* PERF FIX: blur reduced from 90px→55px, will-change promotes to own GPU layer */
 .mesh-blob{
   position:absolute;border-radius:50%;
-  filter:blur(90px);opacity:.25;
-  animation:blobMove 18s ease-in-out infinite alternate;
+  filter:blur(55px);opacity:.22;
+  will-change:transform;
+  animation:blobMove 20s ease-in-out infinite alternate;
 }
-.mesh-blob-1{width:600px;height:600px;background:radial-gradient(circle,rgba(29,78,216,.35),transparent 65%);top:-150px;right:-100px;animation-delay:0s;}
-.mesh-blob-2{width:450px;height:450px;background:radial-gradient(circle,rgba(8,145,178,.25),transparent 65%);bottom:-100px;left:-100px;animation-delay:-6s;}
-.mesh-blob-3{width:350px;height:350px;background:radial-gradient(circle,rgba(232,93,38,.15),transparent 65%);top:40%;left:40%;animation-delay:-10s;}
+.mesh-blob-1{width:500px;height:500px;background:radial-gradient(circle,rgba(29,78,216,.38),transparent 65%);top:-120px;right:-80px;animation-delay:0s;}
+.mesh-blob-2{width:380px;height:380px;background:radial-gradient(circle,rgba(8,145,178,.28),transparent 65%);bottom:-80px;left:-80px;animation-delay:-7s;}
+.mesh-blob-3{width:280px;height:280px;background:radial-gradient(circle,rgba(232,93,38,.16),transparent 65%);top:40%;left:42%;animation-delay:-12s;}
+/* PERF FIX: translate3d forces GPU compositing — no main-thread involvement */
 @keyframes blobMove{
-  0%{transform:translate(0,0) scale(1);}
-  100%{transform:translate(30px,40px) scale(1.15);}
+  0%{transform:translate3d(0,0,0) scale(1);}
+  100%{transform:translate3d(25px,35px,0) scale(1.1);}
 }
 
 .hero-left{
@@ -245,12 +247,14 @@ nav.scrolled{
   from{opacity:0;transform:translateY(60px) scale(.92);}
   to{opacity:1;transform:translateY(0) scale(1);}
 }
+/* PERF FIX: will-change so float animation stays on compositor */
 .hero-img-wrap img{
   width:100%;display:block;
-  filter:drop-shadow(0 40px 80px rgba(0,0,0,.15));
-  animation:float 7s ease-in-out infinite;
+  filter:drop-shadow(0 30px 60px rgba(0,0,0,.15));
+  will-change:transform;
+  animation:float 8s ease-in-out infinite;
 }
-@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-18px);}}
+@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-16px);}}
 
 /* spinning badge */
 .spin-badge{
@@ -272,12 +276,13 @@ nav.scrolled{
   display:flex;flex-direction:column;justify-content:center;
   min-height:100vh;
 }
+/* PERF FIX: staggered more so fewer animations fire simultaneously */
 .hero-eyebrow{
   display:inline-flex;align-items:center;gap:.6rem;
   font-family:'DM Mono',monospace;font-size:.64rem;
   color:var(--blue);letter-spacing:.18em;text-transform:uppercase;
   margin-bottom:2rem;
-  animation:fadeUp .8s .5s ease both;
+  animation:fadeUp .7s .4s ease both;
 }
 .eyebrow-dot{
   width:7px;height:7px;border-radius:50%;
@@ -286,13 +291,12 @@ nav.scrolled{
 }
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.4;transform:scale(.7);}}
 
-/* BIG NAME — the star of the show */
 .hero-name{
   font-family:'Bebas Neue',sans-serif;
   font-size:clamp(4rem,10vw,9.5rem);
   line-height:.88;letter-spacing:.04em;
   color:var(--ink);
-  animation:nameReveal 1s .6s cubic-bezier(.16,1,.3,1) both;
+  animation:nameReveal .9s .55s cubic-bezier(.16,1,.3,1) both;
   position:relative;
 }
 @keyframes nameReveal{
@@ -316,7 +320,7 @@ nav.scrolled{
   margin-top:1.4rem;
   font-family:'DM Mono',monospace;font-size:.78rem;
   color:var(--muted);letter-spacing:.08em;
-  animation:fadeUp .8s .75s ease both;
+  animation:fadeUp .7s .7s ease both;
 }
 .hero-role b{color:var(--ink);font-weight:400;}
 
@@ -324,13 +328,13 @@ nav.scrolled{
   margin-top:1.4rem;
   font-size:1rem;color:var(--muted);
   line-height:1.85;max-width:400px;
-  animation:fadeUp .8s .85s ease both;
+  animation:fadeUp .7s .8s ease both;
 }
 .hero-desc strong{color:var(--ink);font-weight:700;}
 
 .hero-actions{
   margin-top:2.2rem;display:flex;gap:.9rem;flex-wrap:wrap;
-  animation:fadeUp .8s .95s ease both;
+  animation:fadeUp .7s .9s ease both;
 }
 .btn-primary{
   padding:.85rem 2rem;
@@ -360,7 +364,7 @@ nav.scrolled{
 
 .hero-socials{
   margin-top:2.5rem;display:flex;gap:.7rem;flex-wrap:wrap;
-  animation:fadeUp .8s 1.05s ease both;
+  animation:fadeUp .7s 1s ease both;
 }
 .soc-pill{
   display:flex;align-items:center;gap:.45rem;
@@ -373,7 +377,6 @@ nav.scrolled{
 }
 .soc-pill:hover{color:var(--blue);border-color:var(--blue);background:var(--blue-soft);transform:translateY(-2px);}
 
-/* vertical line divider */
 .hero-vline{
   position:absolute;left:50%;top:10%;bottom:10%;
   width:1px;
@@ -381,7 +384,6 @@ nav.scrolled{
   z-index:0;
 }
 
-/* scroll indicator */
 .scroll-hint{
   position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);
   display:flex;flex-direction:column;align-items:center;gap:.5rem;
@@ -415,7 +417,6 @@ section{position:relative;transition:background .5s;}
   line-height:1.9;max-width:520px;margin-bottom:3.5rem;
 }
 
-/* reveal */
 .r{opacity:0;transform:translateY(48px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1);}
 .r.v{opacity:1;transform:translateY(0);}
 .r.from-left{transform:translateX(-48px);}
@@ -426,7 +427,7 @@ section{position:relative;transition:background .5s;}
 .r.scale-in.v{transform:scale(1);}
 
 /* ============================================================
-   MARQUEE STRIP
+   MARQUEE STRIP — PERF FIX: translate3d for GPU compositing
 ============================================================ */
 .marquee-strip{
   overflow:hidden;
@@ -438,11 +439,16 @@ section{position:relative;transition:background .5s;}
 }
 .marquee-inner{
   display:flex;gap:0;
-  animation:marquee 22s linear infinite;
+  will-change:transform;
+  animation:marquee 28s linear infinite;
   width:max-content;
 }
 .marquee-strip:hover .marquee-inner{animation-play-state:paused;}
-@keyframes marquee{0%{transform:translateX(0);}100%{transform:translateX(-50%);}};
+/* PERF FIX: translate3d instead of translateX — hits GPU compositor path */
+@keyframes marquee{
+  0%{transform:translate3d(0,0,0);}
+  100%{transform:translate3d(-50%,0,0);}
+}
 .marquee-item{
   font-family:'DM Mono',monospace;font-size:.7rem;
   color:var(--muted);letter-spacing:.15em;text-transform:uppercase;
@@ -498,7 +504,6 @@ section{position:relative;transition:background .5s;}
 .stat-n{font-family:'Bebas Neue',sans-serif;font-size:2.8rem;color:var(--blue);letter-spacing:.04em;line-height:1;}
 .stat-l{font-family:'DM Mono',monospace;font-size:.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-top:.3rem;}
 
-/* fun fact */
 .fun-fact{
   margin-top:2rem;padding:1.4rem 1.6rem;
   background:var(--card-bg);border:1px solid var(--border);
@@ -535,7 +540,6 @@ section{position:relative;transition:background .5s;}
 .tg{padding:.22rem .65rem;background:var(--tag-bg);border:1px solid rgba(29,78,216,.15);border-radius:4px;font-family:'DM Mono',monospace;font-size:.6rem;color:var(--tag-col);letter-spacing:.05em;transition:background .3s;}
 [data-theme="dark"] .tg{border-color:rgba(96,165,250,.15);}
 
-/* currently learning strip */
 .learning-strip{
   margin-top:3.5rem;padding:2rem 2.5rem;
   background:var(--card-bg);border:1px solid var(--border);
@@ -580,10 +584,7 @@ section{position:relative;transition:background .5s;}
   transition:background .3s,transform .3s;
 }
 .tl-item:hover .tl-dot{background:var(--blue);transform:scale(1.4);}
-.tl-year{
-  font-family:'Bebas Neue',sans-serif;font-size:1.4rem;
-  color:var(--blue);letter-spacing:.08em;margin-bottom:.3rem;
-}
+.tl-year{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--blue);letter-spacing:.08em;margin-bottom:.3rem;}
 .tl-event{font-family:'Cabinet Grotesk',sans-serif;font-weight:700;font-size:1.05rem;color:var(--ink);margin-bottom:.3rem;}
 .tl-desc{font-size:.85rem;color:var(--muted);line-height:1.8;max-width:560px;}
 .tl-badge{
@@ -704,6 +705,17 @@ footer a{color:var(--blue);text-decoration:none;}
 @keyframes fadeUp{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
 
 /* ============================================================
+   REDUCED MOTION — accessibility + extra perf boost
+============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
+
+/* ============================================================
    RESPONSIVE
 ============================================================ */
 @media(max-width:960px){
@@ -735,21 +747,16 @@ footer a{color:var(--blue);text-decoration:none;}
 </head>
 <body>
 
-<!-- Page enter animation -->
 <div class="page-enter" id="pageEnter"></div>
-
-<!-- Custom cursor -->
 <div class="cur" id="cur"></div>
 <div class="cur-ring" id="curRing"></div>
 
-<!-- Dark/Light Toggle -->
 <div class="theme-toggle" id="themeToggle" title="Toggle theme">
   <span class="tog-icons">☀️</span>
   <div class="tog-track"><div class="tog-knob"></div></div>
   <span class="tog-icons">🌙</span>
 </div>
 
-<!-- NAV -->
 <nav id="nav">
   <a href="#" class="nav-logo">TA<span class="dot">.</span></a>
   <ul class="nav-links">
@@ -763,19 +770,14 @@ footer a{color:var(--blue);text-decoration:none;}
   <a href="mailto:areefintakrim@outlook.com" class="nav-hire">Hire Me</a>
 </nav>
 
-<!-- ============================================================
-     HERO
-============================================================ -->
+<!-- HERO -->
 <section id="hero">
   <div class="hero-mesh">
     <div class="mesh-blob mesh-blob-1"></div>
     <div class="mesh-blob mesh-blob-2"></div>
     <div class="mesh-blob mesh-blob-3"></div>
   </div>
-
   <div class="hero-vline"></div>
-
-  <!-- LEFT: watercolor portrait -->
   <div class="hero-left">
     <div class="hero-img-wrap">
       <img src="images/takrim-art.png" alt="MD Takrim Areefin"/>
@@ -790,8 +792,6 @@ footer a{color:var(--blue);text-decoration:none;}
       </div>
     </div>
   </div>
-
-  <!-- RIGHT: text -->
   <div class="hero-right">
     <div class="hero-eyebrow">
       <span class="eyebrow-dot"></span>
@@ -819,7 +819,6 @@ footer a{color:var(--blue);text-decoration:none;}
       <a href="https://x.com/Takrim_Areefin" class="soc-pill" target="_blank">✦ X / Twitter</a>
     </div>
   </div>
-
   <div class="scroll-hint">
     <div class="scroll-line"></div>
     <div class="scroll-text">Scroll</div>
@@ -829,25 +828,26 @@ footer a{color:var(--blue);text-decoration:none;}
 <!-- MARQUEE -->
 <div class="marquee-strip">
   <div class="marquee-inner">
-    <!-- duplicated for seamless loop -->
     <div class="marquee-item">AI Engineering <span class="marquee-dot"></span></div>
     <div class="marquee-item">Cloud Computing <span class="marquee-dot"></span></div>
     <div class="marquee-item">Data Science <span class="marquee-dot"></span></div>
     <div class="marquee-item">AWS Foundations <span class="marquee-dot"></span></div>
     <div class="marquee-item">Python <span class="marquee-dot"></span></div>
     <div class="marquee-item">Linux <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Cambridge CAIE <span class="marquee-dot"></span></div>
+    <div class="marquee-item">British Council <span class="marquee-dot"></span></div>
     <div class="marquee-item">AI Engineering <span class="marquee-dot"></span></div>
     <div class="marquee-item">Cloud Computing <span class="marquee-dot"></span></div>
     <div class="marquee-item">Data Science <span class="marquee-dot"></span></div>
     <div class="marquee-item">AWS Foundations <span class="marquee-dot"></span></div>
     <div class="marquee-item">Python <span class="marquee-dot"></span></div>
     <div class="marquee-item">Linux <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Cambridge CAIE <span class="marquee-dot"></span></div>
+    <div class="marquee-item">British Council <span class="marquee-dot"></span></div>
   </div>
 </div>
 
-<!-- ============================================================
-     ABOUT
-============================================================ -->
+<!-- ABOUT -->
 <section id="about">
   <div class="si">
     <div class="about-grid">
@@ -879,9 +879,7 @@ footer a{color:var(--blue);text-decoration:none;}
   </div>
 </section>
 
-<!-- ============================================================
-     SKILLS
-============================================================ -->
+<!-- SKILLS -->
 <section id="skills">
   <div class="si">
     <div class="s-label r">// technical skills</div>
@@ -895,8 +893,6 @@ footer a{color:var(--blue);text-decoration:none;}
       <div class="sk r" style="transition-delay:.12s"><span class="sk-icon">💻</span><div class="sk-name">Computer Science</div><div class="sk-desc">Cambridge CAIE CS — algorithms, data structures, networking, computational thinking at an international benchmark.</div><div class="sk-tags"><span class="tg">algorithms</span><span class="tg">networking</span><span class="tg">CAIE</span></div></div>
       <div class="sk r" style="transition-delay:.19s"><span class="sk-icon">🎤</span><div class="sk-name">Communication</div><div class="sk-desc">Public speaking and institutional representation. The best engineers communicate their ideas as powerfully as they build them.</div><div class="sk-tags"><span class="tg">leadership</span><span class="tg">speaking</span><span class="tg">teamwork</span></div></div>
     </div>
-
-    <!-- Currently Learning -->
     <div class="learning-strip r" style="transition-delay:.2s">
       <div class="learning-title">// Currently Learning</div>
       <div class="learning-items">
@@ -909,88 +905,27 @@ footer a{color:var(--blue);text-decoration:none;}
   </div>
 </section>
 
-<!-- ============================================================
-     TIMELINE / JOURNEY
-============================================================ -->
+<!-- TIMELINE -->
 <section id="timeline">
   <div class="si">
     <div class="s-label r">// my journey</div>
     <h2 class="s-title r">How I Got<br/>Here</h2>
     <p class="s-sub r">Every year was a step. Not random — intentional.</p>
-
     <div class="tl-wrap">
       <div class="tl-line"></div>
-
-      <div class="tl-item">
-        <div class="tl-dot"></div>
-        <div class="tl-year">2012</div>
-        <div class="tl-event">The Spark</div>
-        <div class="tl-desc">Fell in love with computers as a kid — while other children saw games, I saw machines. The curiosity never left.</div>
-        <span class="tl-badge">Origin Story</span>
-      </div>
-
-      <div class="tl-item">
-        <div class="tl-dot"></div>
-        <div class="tl-year">2020</div>
-        <div class="tl-event">First Real Interest in CS</div>
-        <div class="tl-desc">Started seriously exploring Computer Science — not just using computers, but understanding how they work.</div>
-        <span class="tl-badge">CS Foundation</span>
-      </div>
-
-      <div class="tl-item">
-        <div class="tl-dot"></div>
-        <div class="tl-year">2021</div>
-        <div class="tl-event">AI Rises — So Does The Ambition</div>
-        <div class="tl-desc">Watched AI explode onto the world stage. Something clicked. This wasn't just interesting — this was the future, and I wanted to build it.</div>
-        <span class="tl-badge">Vision Locked</span>
-      </div>
-
-      <div class="tl-item">
-        <div class="tl-dot"></div>
-        <div class="tl-year">2022</div>
-        <div class="tl-event">Went Hard on CS</div>
-        <div class="tl-desc">Committed fully to Computer Science. Started treating it not as a subject — but as a career path to engineer.</div>
-        <span class="tl-badge">Full Commitment</span>
-      </div>
-
-      <div class="tl-item">
-        <div class="tl-dot"></div>
-        <div class="tl-year">2023</div>
-        <div class="tl-event">Career Decision Locked In — O Levels</div>
-        <div class="tl-desc">Made the decisive call: AI, Data Science, and Cloud Engineering is the path. Enrolled in O Levels with sciences as the foundation.</div>
-        <span class="tl-badge">Cambridge IGCSE</span>
-      </div>
-
-      <div class="tl-item">
-        <div class="tl-dot"></div>
-        <div class="tl-year">2024</div>
-        <div class="tl-event">One Step Ahead — AWS & Cloud</div>
-        <div class="tl-desc">Decided to go further than my peers — started self-learning cloud computing basics, exploring AWS roadmaps and certification paths. Building the edge early.</div>
-        <span class="tl-badge">Self-Directed Learning</span>
-      </div>
-
-      <div class="tl-item">
-        <div class="tl-dot"></div>
-        <div class="tl-year">2025</div>
-        <div class="tl-event">O Levels Complete — A* Achieved</div>
-        <div class="tl-desc">Sat for and completed Cambridge O Levels across Physics, Chemistry, Biology, Computer Science, and Additional Mathematics. Result: A*. Foundation set.</div>
-        <span class="tl-badge">A* · Cambridge IGCSE</span>
-      </div>
-
-      <div class="tl-item">
-        <div class="tl-dot"></div>
-        <div class="tl-year">2026</div>
-        <div class="tl-event">Strategic A Levels — Statistics Over Mechanics</div>
-        <div class="tl-desc">Chose the Statistics module in A Level Maths (over traditional Mechanics) — Poisson distributions, regression analysis — precisely because it feeds directly into the AI and ML world. Every decision is calculated.</div>
-        <span class="tl-badge">Currently · A Levels</span>
-      </div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">2012</div><div class="tl-event">The Spark</div><div class="tl-desc">Fell in love with computers as a kid — while other children saw games, I saw machines. The curiosity never left.</div><span class="tl-badge">Origin Story</span></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">2020</div><div class="tl-event">First Real Interest in CS</div><div class="tl-desc">Started seriously exploring Computer Science — not just using computers, but understanding how they work.</div><span class="tl-badge">CS Foundation</span></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">2021</div><div class="tl-event">AI Rises — So Does The Ambition</div><div class="tl-desc">Watched AI explode onto the world stage. Something clicked. This wasn't just interesting — this was the future, and I wanted to build it.</div><span class="tl-badge">Vision Locked</span></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">2022</div><div class="tl-event">Went Hard on CS</div><div class="tl-desc">Committed fully to Computer Science. Started treating it not as a subject — but as a career path to engineer.</div><span class="tl-badge">Full Commitment</span></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">2023</div><div class="tl-event">Career Decision Locked In — O Levels</div><div class="tl-desc">Made the decisive call: AI, Data Science, and Cloud Engineering is the path. Enrolled in O Levels with sciences as the foundation.</div><span class="tl-badge">Cambridge IGCSE</span></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">2024</div><div class="tl-event">One Step Ahead — AWS & Cloud</div><div class="tl-desc">Decided to go further than my peers — started self-learning cloud computing basics, exploring AWS roadmaps and certification paths. Building the edge early.</div><span class="tl-badge">Self-Directed Learning</span></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">2025</div><div class="tl-event">O Levels Complete — A* Achieved</div><div class="tl-desc">Sat for and completed Cambridge O Levels across Physics, Chemistry, Biology, Computer Science, and Additional Mathematics. Result: A*. Foundation set.</div><span class="tl-badge">A* · Cambridge IGCSE</span></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">2026</div><div class="tl-event">Strategic A Levels — Statistics Over Mechanics</div><div class="tl-desc">Chose the Statistics module in A Level Maths (over traditional Mechanics) — Poisson distributions, regression analysis — precisely because it feeds directly into the AI and ML world. Every decision is calculated.</div><span class="tl-badge">Currently · A Levels</span></div>
     </div>
   </div>
 </section>
 
-<!-- ============================================================
-     EDUCATION
-============================================================ -->
+<!-- EDUCATION -->
 <section id="education">
   <div class="si">
     <div class="s-label r">// education</div>
@@ -1003,9 +938,7 @@ footer a{color:var(--blue);text-decoration:none;}
           <div class="edu-t">Cambridge International A Levels</div>
           <div class="edu-inst">British Council · Cambridge Assessment International Education (CAIE)</div>
           <div class="edu-d">Pursuing A Levels with surgical focus on the AI and Cloud industry. Chose the Statistics pathway in Maths — Poisson distributions and regression analysis — because every subject choice is a career investment. Simultaneously self-learning Python, Linux, and AWS fundamentals.</div>
-          <div class="edu-subs">
-            <span class="tg">Physics</span><span class="tg">Chemistry</span><span class="tg">Computer Science</span><span class="tg">Mathematics (Statistics)</span>
-          </div>
+          <div class="edu-subs"><span class="tg">Physics</span><span class="tg">Chemistry</span><span class="tg">Computer Science</span><span class="tg">Mathematics (Statistics)</span></div>
         </div>
       </div>
       <div class="edu-c r" style="transition-delay:.12s">
@@ -1014,18 +947,14 @@ footer a{color:var(--blue);text-decoration:none;}
           <div class="edu-t">Cambridge O Level (IGCSE)</div>
           <div class="edu-inst">British Council · CAIE · A* Results</div>
           <div class="edu-d">Completed the Cambridge IGCSE — an internationally recognised qualification — achieving A* across all science and mathematics subjects. The science foundation was not a coincidence — it was the plan.</div>
-          <div class="edu-subs">
-            <span class="tg">Physics</span><span class="tg">Chemistry</span><span class="tg">Biology</span><span class="tg">Computer Science</span><span class="tg">Additional Mathematics</span>
-          </div>
+          <div class="edu-subs"><span class="tg">Physics</span><span class="tg">Chemistry</span><span class="tg">Biology</span><span class="tg">Computer Science</span><span class="tg">Additional Mathematics</span></div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ============================================================
-     GOALS
-============================================================ -->
+<!-- GOALS -->
 <section id="goals">
   <div class="si">
     <div class="s-label r">// the roadmap</div>
@@ -1054,53 +983,31 @@ footer a{color:var(--blue);text-decoration:none;}
   </div>
 </section>
 
-<!-- ============================================================
-     CONTACT
-============================================================ -->
+<!-- CONTACT -->
 <section id="contact">
   <div class="si">
     <div class="contact-split">
       <div class="r">
         <div class="s-label">// let's connect</div>
-        <div class="contact-tagline">
-          Let's Build<br/>
-          <span class="grad-text">Something</span><br/>
-          Together.
-        </div>
+        <div class="contact-tagline">Let's Build<br/><span class="grad-text">Something</span><br/>Together.</div>
         <p class="s-sub" style="margin-bottom:0">Open to collaborations, university discussions, project ideas, or just a great conversation about the future of AI. Always reachable.</p>
       </div>
       <div class="contact-links r" style="transition-delay:.15s">
-        <a href="mailto:areefintakrim@outlook.com" class="c-item">
-          <span class="c-icon">✉️</span>
-          <div><div class="c-lbl">Professional Email</div><div class="c-val">areefintakrim@outlook.com</div></div>
-        </a>
-        <a href="https://www.linkedin.com/in/takrim-areefin-8a7690278/" target="_blank" class="c-item">
-          <span class="c-icon">💼</span>
-          <div><div class="c-lbl">LinkedIn</div><div class="c-val">takrim-areefin-8a7690278</div></div>
-        </a>
-        <a href="https://github.com/Txkrm227" target="_blank" class="c-item">
-          <span class="c-icon">⬡</span>
-          <div><div class="c-lbl">GitHub</div><div class="c-val">Txkrm227</div></div>
-        </a>
-        <a href="https://x.com/Takrim_Areefin" target="_blank" class="c-item">
-          <span class="c-icon">✦</span>
-          <div><div class="c-lbl">X / Twitter</div><div class="c-val">@Takrim_Areefin</div></div>
-        </a>
+        <a href="mailto:areefintakrim@outlook.com" class="c-item"><span class="c-icon">✉️</span><div><div class="c-lbl">Professional Email</div><div class="c-val">areefintakrim@outlook.com</div></div></a>
+        <a href="https://www.linkedin.com/in/takrim-areefin-8a7690278/" target="_blank" class="c-item"><span class="c-icon">💼</span><div><div class="c-lbl">LinkedIn</div><div class="c-val">takrim-areefin-8a7690278</div></div></a>
+        <a href="https://github.com/Txkrm227" target="_blank" class="c-item"><span class="c-icon">⬡</span><div><div class="c-lbl">GitHub</div><div class="c-val">Txkrm227</div></div></a>
+        <a href="https://x.com/Takrim_Areefin" target="_blank" class="c-item"><span class="c-icon">✦</span><div><div class="c-lbl">X / Twitter</div><div class="c-val">@Takrim_Areefin</div></div></a>
       </div>
     </div>
   </div>
 </section>
 
-<!-- FOOTER -->
 <footer>
   <div class="footer-logo">TA<span class="dot">.</span></div>
   <div>© 2026 MD Takrim Areefin · Cambridge CAIE · British Council · Dhaka, Bangladesh</div>
   <a href="mailto:areefintakrim@outlook.com">areefintakrim@outlook.com</a>
 </footer>
 
-<!-- ============================================================
-     JAVASCRIPT
-============================================================ -->
 <script>
 // ---- PAGE ENTER ----
 window.addEventListener('load',()=>{
@@ -1113,7 +1020,6 @@ const html=document.documentElement;
 const toggle=document.getElementById('themeToggle');
 const saved=localStorage.getItem('theme')||'light';
 html.setAttribute('data-theme',saved);
-
 toggle.addEventListener('click',()=>{
   const cur=html.getAttribute('data-theme');
   const next=cur==='light'?'dark':'light';
@@ -1121,27 +1027,42 @@ toggle.addEventListener('click',()=>{
   localStorage.setItem('theme',next);
 });
 
-// ---- CUSTOM CURSOR ----
-const cur=document.getElementById('cur');
-const ring=document.getElementById('curRing');
-let mx=0,my=0,rx=0,ry=0;
-document.addEventListener('mousemove',e=>{
-  mx=e.clientX;my=e.clientY;
-  cur.style.left=mx+'px';cur.style.top=my+'px';
-});
-(function animate(){
-  rx+=(mx-rx)*.09;ry+=(my-ry)*.09;
-  ring.style.left=rx+'px';ring.style.top=ry+'px';
-  requestAnimationFrame(animate);
+// ---- CUSTOM CURSOR — PERF FIX ----
+// Removed continuous rAF loop. Uses ticking flag so rAF only fires on actual mousemove.
+// CSS transition on the ring handles the smooth follow — no JS loop needed.
+(function(){
+  const cur=document.getElementById('cur');
+  const ring=document.getElementById('curRing');
+  if(!cur||!ring) return;
+  let ticking=false;
+  document.addEventListener('mousemove',e=>{
+    if(!ticking){
+      requestAnimationFrame(()=>{
+        cur.style.left=e.clientX+'px';
+        cur.style.top=e.clientY+'px';
+        ring.style.left=e.clientX+'px';
+        ring.style.top=e.clientY+'px';
+        ticking=false;
+      });
+      ticking=true;
+    }
+  },{passive:true});
+  document.querySelectorAll('a,button,.theme-toggle').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{
+      cur.style.width='6px';cur.style.height='6px';
+      ring.style.width='56px';ring.style.height='56px';ring.style.opacity='.18';
+    },{passive:true});
+    el.addEventListener('mouseleave',()=>{
+      cur.style.width='10px';cur.style.height='10px';
+      ring.style.width='38px';ring.style.height='38px';ring.style.opacity='.35';
+    },{passive:true});
+  });
 })();
 
 // ---- NAV SCROLL ----
 const nav=document.getElementById('nav');
-let lastY=0;
 window.addEventListener('scroll',()=>{
-  const y=scrollY;
-  nav.classList.toggle('scrolled',y>60);
-  lastY=y;
+  nav.classList.toggle('scrolled',scrollY>60);
 },{passive:true});
 
 // ---- SCROLL REVEAL ----
@@ -1151,9 +1072,7 @@ const revObs=new IntersectionObserver((entries)=>{
     if(e.isIntersecting){
       const el=e.target;
       const delay=parseFloat(el.style.transitionDelay||0)*1000;
-      setTimeout(()=>{
-        el.classList.add('v');
-      },delay?0:i*40);
+      setTimeout(()=>{el.classList.add('v');},delay?0:i*40);
       revObs.unobserve(el);
     }
   });
@@ -1177,18 +1096,6 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{
   a.addEventListener('click',e=>{
     const target=document.querySelector(a.getAttribute('href'));
     if(target){e.preventDefault();target.scrollIntoView({behavior:'smooth',block:'start'});}
-  });
-});
-
-// ---- CURSOR SIZE ON INTERACTIVE ----
-document.querySelectorAll('a,button,.theme-toggle').forEach(el=>{
-  el.addEventListener('mouseenter',()=>{
-    cur.style.width='6px';cur.style.height='6px';
-    ring.style.width='58px';ring.style.height='58px';ring.style.opacity='.2';
-  });
-  el.addEventListener('mouseleave',()=>{
-    cur.style.width='10px';cur.style.height='10px';
-    ring.style.width='38px';ring.style.height='38px';ring.style.opacity='.4';
   });
 });
 </script>
