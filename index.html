@@ -1,17 +1,4 @@
-<!DOCTYPE html>
-<html lang="en" data-theme="light">
-<head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>MD Takrim Areefin — AI & Cloud Engineer</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@300;400&family=Cabinet+Grotesk:wght@400;500;700;800&display=swap" rel="stylesheet"/>
-<style>
-/* ============================================================
-   TOKENS — Sophisticated slate + warm cream
-   Inspired by: Linear, Vercel, Monocle Magazine
-============================================================ */
+<!DOCTYPE html> <html lang="en" data-theme="light"> <head> <meta charset="UTF-8"/> <meta name="viewport" content="width=device-width, initial-scale=1.0"/> <title>MD Takrim Areefin — AI & Cloud Engineer</title> <link rel="preconnect" href="https://fonts.googleapis.com"/> <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/> <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@300;400&family=Cabinet+Grotesk:wght@400;500;700;800&display=swap" rel="stylesheet"/> <style>
 :root {
   --bg:      #F4F2ED;
   --bg2:     #ECEAE4;
@@ -52,8 +39,6 @@
   --shadow:  rgba(0,0,0,0.4);
   --bar:     #5B97F5;
 }
-
-/* ============================================================ BASE ============================================================ */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
 body{
@@ -70,7 +55,7 @@ body{
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;}
 }
 
-/* ============================================================ CURSOR ============================================================ */
+/* CURSOR */
 .cur{
   position:fixed;width:8px;height:8px;
   background:var(--blue);border-radius:50%;
@@ -92,7 +77,7 @@ body{
              width .28s,height .28s,opacity .28s;
 }
 
-/* ============================================================ TOGGLE ============================================================ */
+/* TOGGLE */
 .tog{
   position:fixed;bottom:1.8rem;right:1.8rem;z-index:500;
   display:flex;align-items:center;gap:.5rem;
@@ -107,7 +92,7 @@ body{
 .tog-knob{position:absolute;top:2px;left:2px;width:14px;height:14px;background:var(--tog-k);border-radius:50%;transition:transform .4s cubic-bezier(.34,1.56,.64,1),background .4s;}
 [data-theme="dark"] .tog-knob{transform:translateX(14px);}
 
-/* ============================================================ NAV ============================================================ */
+/* NAV */
 nav{
   position:fixed;top:0;left:0;right:0;z-index:300;
   display:flex;align-items:center;justify-content:space-between;
@@ -143,7 +128,7 @@ nav.up{
 }
 .nav-cta:hover{background:var(--blue);transform:translateY(-2px);box-shadow:0 8px 22px rgba(26,70,200,.28);}
 
-/* ============================================================ PAGE WIPE ============================================================ */
+/* PAGE WIPE */
 .wipe{
   position:fixed;inset:0;z-index:9000;background:var(--ink);
   animation:wipeOut 1s .08s cubic-bezier(.77,0,.18,1) forwards;
@@ -151,12 +136,7 @@ nav.up{
 }
 @keyframes wipeOut{0%{transform:scaleY(1);}100%{transform:scaleY(0);transform-origin:bottom;}}
 
-/* ============================================================
-   HERO — EDITORIAL FULL-BLEED
-   Name is MASSIVE and spans full width
-   Image is a textured background element, not a portrait box
-   Layout nobody expects: giant name OVER image, asymmetric
-============================================================ */
+/* HERO — DESKTOP */
 #hero{
   position:relative;min-height:100vh;
   display:flex;flex-direction:column;
@@ -164,8 +144,6 @@ nav.up{
   overflow:hidden;
   background:var(--bg);
 }
-
-/* Full-bleed image as atmospheric background */
 .hero-bg-img{
   position:absolute;
   right:0;top:0;bottom:0;
@@ -178,7 +156,6 @@ nav.up{
   filter:saturate(.7) contrast(1.05);
   opacity:.85;
 }
-/* Gradient fade from left so name stays readable */
 .hero-bg-img::before{
   content:'';position:absolute;inset:0;z-index:1;
   background:linear-gradient(to right, var(--bg) 0%, rgba(244,242,237,.6) 55%, transparent 100%);
@@ -186,7 +163,6 @@ nav.up{
 [data-theme="dark"] .hero-bg-img::before{
   background:linear-gradient(to right, var(--bg) 0%, rgba(11,13,20,.65) 55%, transparent 100%);
 }
-/* Bottom gradient so name text is clean */
 .hero-bg-img::after{
   content:'';position:absolute;inset:0;z-index:1;
   background:linear-gradient(to top, var(--bg) 0%, transparent 40%);
@@ -194,20 +170,15 @@ nav.up{
 [data-theme="dark"] .hero-bg-img::after{
   background:linear-gradient(to top, var(--bg) 0%, transparent 40%);
 }
-
-/* Static subtle grain */
 #hero .grain{
   position:absolute;inset:0;z-index:1;pointer-events:none;opacity:.03;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)'/%3E%3C/svg%3E");
 }
-
 .hero-content{
   position:relative;z-index:2;
   padding:0 5rem 4rem;
   width:100%;
 }
-
-/* HUGE editorial eyebrow line */
 .h-eyebrow{
   font-family:'DM Mono',monospace;font-size:.65rem;
   color:var(--blue);letter-spacing:.22em;text-transform:uppercase;
@@ -221,8 +192,6 @@ nav.up{
   animation:pulse 2.8s ease-in-out infinite;
 }
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.3;transform:scale(.6);}}
-
-/* THE NAME — full viewport width, editorial magazine style */
 .h-name{
   font-family:'Bebas Neue',sans-serif;
   font-size:clamp(5rem,14vw,13rem);
@@ -231,8 +200,6 @@ nav.up{
   animation:nameIn .9s .5s cubic-bezier(.16,1,.3,1) both;
 }
 @keyframes nameIn{from{opacity:0;transform:translateY(100px);}to{opacity:1;transform:translateY(0);}}
-
-/* AREEFIN — gradient, slightly italic feel via Instrument Serif mix */
 .h-name .grad{
   display:block;
   background:linear-gradient(120deg,var(--blue) 0%,var(--teal) 45%,var(--fire) 100%);
@@ -242,8 +209,6 @@ nav.up{
   animation:gradDrift 7s ease infinite alternate;
 }
 @keyframes gradDrift{0%{background-position:0% 50%;}100%{background-position:100% 50%;}}
-
-/* Bottom row: role + location + CTA in one line */
 .h-bottom{
   margin-top:1.8rem;
   display:flex;align-items:center;gap:2.5rem;flex-wrap:wrap;
@@ -273,10 +238,8 @@ nav.up{
   transition:border-color .25s,color .25s,transform .25s;
 }
 .btn-g:hover{border-color:var(--blue);color:var(--blue);transform:translateY(-3px);}
-
-/* Socials row */
 .h-socials{
-  margin-top:1.2rem;display:flex;gap:.6rem;
+  margin-top:1.2rem;display:flex;gap:.6rem;flex-wrap:wrap;
   animation:fadeUp .7s .88s ease both;
 }
 .spill{
@@ -287,8 +250,6 @@ nav.up{
   border-radius:100px;transition:all .22s;
 }
 .spill:hover{color:var(--blue);border-color:var(--blue);background:var(--bsoft);}
-
-/* Scroll hint bottom-right */
 .h-scroll{
   position:absolute;bottom:2rem;right:5rem;z-index:3;
   display:flex;flex-direction:column;align-items:center;gap:.4rem;
@@ -297,8 +258,6 @@ nav.up{
 .h-scroll-ln{width:1px;height:42px;background:var(--blue);will-change:transform,opacity;animation:scPulse 2.2s ease-in-out infinite;}
 @keyframes scPulse{0%,100%{transform:scaleY(1);opacity:.4;}50%{transform:scaleY(.28);opacity:1;}}
 .h-scroll-tx{font-family:'DM Mono',monospace;font-size:.56rem;color:var(--muted);letter-spacing:.2em;text-transform:uppercase;}
-
-/* Spinning badge — top right of image area */
 .spin-badge{
   position:absolute;top:6rem;right:3rem;z-index:3;
   width:110px;height:110px;
@@ -307,7 +266,7 @@ nav.up{
 @keyframes spin{to{transform:rotate(360deg);}}
 .spin-ctr{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:1.6rem;}
 
-/* ============================================================ MARQUEE ============================================================ */
+/* MARQUEE */
 .mq{
   overflow:hidden;
   border-top:1px solid var(--border);border-bottom:1px solid var(--border);
@@ -325,12 +284,10 @@ nav.up{
 }
 .mq-dot{width:4px;height:4px;border-radius:50%;background:var(--blue);flex-shrink:0;}
 
-/* ============================================================ SECTIONS ============================================================ */
+/* SECTIONS */
 section{position:relative;transition:background .5s;}
 .si{max-width:1180px;margin:0 auto;padding:7.5rem 5rem;}
 .s-lbl{font-family:'DM Mono',monospace;font-size:.61rem;letter-spacing:.22em;text-transform:uppercase;color:var(--blue);margin-bottom:.8rem;}
-
-/* EDITORIAL section titles — mix Bebas + Instrument Serif */
 .s-ttl{
   font-family:'Bebas Neue',sans-serif;
   font-size:clamp(2.6rem,5vw,4.8rem);
@@ -344,8 +301,6 @@ section{position:relative;transition:background .5s;}
   color:var(--blue);
 }
 .s-sub{font-size:.92rem;color:var(--muted);line-height:1.9;max-width:490px;margin-bottom:2.8rem;}
-
-/* Reveal */
 .r{opacity:0;transform:translateY(42px);transition:opacity .72s cubic-bezier(.16,1,.3,1),transform .72s cubic-bezier(.16,1,.3,1);}
 .r.v{opacity:1;transform:none;}
 .r.fr{transform:translateX(-42px);}
@@ -353,9 +308,7 @@ section{position:relative;transition:background .5s;}
 .r.fl{transform:translateX(42px);}
 .r.fl.v{transform:none;}
 
-/* ============================================================
-   ABOUT — asymmetric: text overlaps image bottom-left
-============================================================ */
+/* ABOUT */
 #about{background:var(--bg);}
 .about-wrap{
   display:grid;
@@ -363,11 +316,7 @@ section{position:relative;transition:background .5s;}
   grid-template-rows:auto auto;
   gap:0;
 }
-/* Image spans right column, 2 rows */
-.about-img{
-  grid-column:2;grid-row:1/3;
-  padding-left:3rem;padding-top:0;
-}
+.about-img{grid-column:2;grid-row:1/3;padding-left:3rem;padding-top:0;}
 .about-img-inner{
   position:relative;border-radius:20px;overflow:hidden;
   border:1px solid var(--border);
@@ -380,7 +329,6 @@ section{position:relative;transition:background .5s;}
   font-family:'DM Mono',monospace;font-size:.58rem;
   color:rgba(255,255,255,.55);letter-spacing:.12em;text-transform:uppercase;
 }
-/* Text left column */
 .about-text{grid-column:1;grid-row:1;}
 .about-body p{color:var(--muted);line-height:1.9;font-size:.92rem;margin-bottom:1.2rem;}
 .about-body p strong{color:var(--ink);font-weight:700;}
@@ -392,7 +340,6 @@ section{position:relative;transition:background .5s;}
   font-size:.86rem;color:var(--muted);line-height:1.8;
 }
 .fun-fact b{color:var(--fire);}
-/* Stats row spans left column, row 2 */
 .about-stats{grid-column:1;grid-row:2;padding-top:2rem;}
 .stats-g{display:grid;grid-template-columns:repeat(4,1fr);gap:.9rem;}
 .stat{
@@ -407,13 +354,9 @@ section{position:relative;transition:background .5s;}
 .sn{font-family:'Bebas Neue',sans-serif;font-size:2.4rem;color:var(--blue);letter-spacing:.04em;line-height:1;}
 .sl{font-family:'DM Mono',monospace;font-size:.57rem;color:var(--muted);text-transform:uppercase;letter-spacing:.09em;margin-top:.25rem;}
 
-/* ============================================================
-   SKILLS — Horizontal scroll cards, unique layout
-============================================================ */
+/* SKILLS */
 #skills{background:var(--bg2);}
-.sk-scroll{
-  display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem;
-}
+.sk-scroll{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem;}
 .sk{
   padding:1.8rem 1.6rem;background:var(--card);
   border:1px solid var(--border);border-radius:16px;
@@ -430,8 +373,6 @@ section{position:relative;transition:background .5s;}
 .sk-tg{margin-top:.85rem;display:flex;flex-wrap:wrap;gap:.3rem;position:relative;z-index:1;}
 .tg{padding:.18rem .58rem;background:var(--tag-bg);border:1px solid rgba(26,70,200,.12);border-radius:4px;font-family:'DM Mono',monospace;font-size:.57rem;color:var(--tag-col);letter-spacing:.05em;}
 [data-theme="dark"] .tg{border-color:rgba(91,151,245,.12);}
-
-/* Currently learning */
 .learn-bar{
   margin-top:2.8rem;padding:1.7rem 2rem;
   background:var(--card);border:1px solid var(--border);border-radius:16px;
@@ -448,15 +389,12 @@ section{position:relative;transition:background .5s;}
 [data-theme="dark"] .li{border-color:rgba(91,151,245,.12);}
 .ldot{width:6px;height:6px;border-radius:50%;background:var(--blue);flex-shrink:0;will-change:opacity,transform;animation:pulse 2.2s ease-in-out infinite;}
 
-/* ============================================================
-   TIMELINE — Two column grid, unique editorial style
-============================================================ */
+/* TIMELINE */
 #timeline{background:var(--bg);}
 .tl-grid{
   display:grid;grid-template-columns:1fr 1fr;gap:1.5rem 4rem;
   position:relative;
 }
-/* Vertical center line */
 .tl-grid::before{
   content:'';
   position:absolute;left:50%;top:0;bottom:0;width:1px;
@@ -472,7 +410,6 @@ section{position:relative;transition:background .5s;}
 }
 .tl-item.v{opacity:1;transform:none;}
 .tl-item:hover{border-color:var(--blue);box-shadow:0 12px 30px var(--shadow);}
-/* Dot on center line */
 .tl-item:nth-child(odd)::after{
   content:'';position:absolute;right:-2.22rem;top:1.8rem;
   width:10px;height:10px;border-radius:50%;
@@ -494,7 +431,7 @@ section{position:relative;transition:background .5s;}
 }
 [data-theme="dark"] .tl-bd{border-color:rgba(91,151,245,.11);}
 
-/* ============================================================ EDUCATION ============================================================ */
+/* EDUCATION */
 #education{background:var(--bg2);}
 .edu-cards{display:flex;flex-direction:column;gap:1rem;}
 .edu-c{
@@ -513,9 +450,7 @@ section{position:relative;transition:background .5s;}
 .edu-d{font-size:.8rem;color:var(--muted);line-height:1.8;}
 .edu-sb{margin-top:.75rem;display:flex;flex-wrap:wrap;gap:.3rem;}
 
-/* ============================================================
-   GOALS — Bento-style, large card + 2 smaller
-============================================================ */
+/* GOALS */
 #goals{background:var(--bg);}
 .goals-g{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem;}
 .gc{
@@ -541,9 +476,7 @@ section{position:relative;transition:background .5s;}
 .gc-t{font-family:'Cabinet Grotesk',sans-serif;font-weight:800;font-size:1.12rem;color:var(--ink);margin-bottom:.5rem;}
 .gc-d{font-size:.82rem;color:var(--muted);line-height:1.82;}
 
-/* ============================================================
-   CONTACT — Full width, split with large serif quote
-============================================================ */
+/* CONTACT */
 #contact{background:var(--bg2);}
 .ct-g{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;}
 .ct-quote{
@@ -569,7 +502,7 @@ section{position:relative;transition:background .5s;}
 .ci-lb{font-family:'DM Mono',monospace;font-size:.57rem;color:var(--muted);text-transform:uppercase;letter-spacing:.12em;position:relative;z-index:1;}
 .ci-vl{font-size:.86rem;font-weight:600;margin-top:.07rem;position:relative;z-index:1;}
 
-/* ============================================================ FOOTER ============================================================ */
+/* FOOTER */
 footer{
   padding:1.8rem 5rem;border-top:1px solid var(--border);
   background:var(--bg);
@@ -584,19 +517,53 @@ footer a{color:var(--blue);text-decoration:none;}
 
 @keyframes fadeUp{from{opacity:0;transform:translateY(26px);}to{opacity:1;transform:translateY(0);}}
 
-/* ============================================================ RESPONSIVE ============================================================ */
+/* ============================================================
+   RESPONSIVE — PROPERLY FIXED FOR MOBILE
+============================================================ */
 @media(max-width:960px){
   nav,nav.up{padding:1.1rem 1.5rem;}
   .nav-links,.nav-cta{display:none;}
-  #hero{min-height:auto;}
-  .hero-bg-img{width:100%;position:relative;height:50vw;right:auto;top:auto;bottom:auto;}
-  .hero-bg-img::before{background:linear-gradient(to bottom,transparent 50%,var(--bg) 100%);}
-  .hero-content{padding:0 1.5rem 3rem;}
-  .h-name{font-size:clamp(3.5rem,14vw,7rem);}
+
+  /* HERO MOBILE — stack vertically, image on top, text below */
+  #hero{
+    min-height:100vh;
+    flex-direction:column;
+    justify-content:flex-start;
+  }
+
+  /* Image becomes a stacked portrait block at the top */
+  .hero-bg-img{
+    position:relative;
+    width:100%;
+    right:auto;top:auto;bottom:auto;
+    height:72vw;
+    max-height:360px;
+    flex-shrink:0;
+  }
+  .hero-bg-img img{
+    object-fit:cover;
+    object-position:center 15%; /* shows FACE not just hair */
+  }
+  /* Fade bottom of image so it bleeds into content */
+  .hero-bg-img::before{
+    background:linear-gradient(to bottom, transparent 30%, var(--bg) 100%) !important;
+  }
+  [data-theme="dark"] .hero-bg-img::before{
+    background:linear-gradient(to bottom, transparent 30%, var(--bg) 100%) !important;
+  }
+  .hero-bg-img::after{display:none;}
+
+  .hero-content{
+    padding:0 1.5rem 3rem;
+    margin-top:-3rem; /* text overlaps slightly with image fade */
+  }
+  .h-name{font-size:clamp(3.2rem,13vw,6rem);}
   .h-bottom{gap:1rem;}
   .h-btns{margin-left:0;width:100%;}
+  .h-divider{display:none;}
   .spin-badge{display:none;}
   .h-scroll{right:1.5rem;}
+
   .si{padding:5rem 1.5rem;}
   .about-wrap{grid-template-columns:1fr;grid-template-rows:auto;}
   .about-img{grid-column:1;grid-row:3;padding-left:0;padding-top:2rem;}
@@ -610,12 +577,14 @@ footer a{color:var(--blue);text-decoration:none;}
   .gc.wide{grid-column:1;}
   .ct-g{grid-template-columns:1fr;gap:2.5rem;}
   .edu-c{grid-template-columns:1fr;}
-  footer{flex-direction:column;gap:.8rem;text-align:center;}
+  footer{flex-direction:column;gap:.8rem;text-align:center;padding:1.8rem 1.5rem;}
 }
+
 @media(max-width:600px){
   .sk-scroll{grid-template-columns:1fr;}
   .stats-g{grid-template-columns:1fr 1fr;}
   .learn-bar{flex-direction:column;align-items:flex-start;}
+  .h-name{font-size:clamp(2.8rem,12vw,5rem);}
 }
 </style>
 </head>
@@ -644,17 +613,12 @@ footer a{color:var(--blue);text-decoration:none;}
   <a href="mailto:areefintakrim@outlook.com" class="nav-cta">Hire Me</a>
 </nav>
 
-<!-- ======================================================
-     HERO — editorial full-bleed
-====================================================== -->
 <section id="hero">
-  <!-- Watercolor portrait as atmospheric background -->
   <div class="hero-bg-img">
     <img src="images/takrim-art.png" alt="MD Takrim Areefin"/>
   </div>
   <div class="grain"></div>
 
-  <!-- Spinning badge top right -->
   <div class="spin-badge">
     <svg viewBox="0 0 110 110" width="110" height="110">
       <defs><path id="bp" d="M55,55 m-36,0 a36,36 0 1,1 72,0 a36,36 0 1,1 -72,0"/></defs>
@@ -665,14 +629,12 @@ footer a{color:var(--blue);text-decoration:none;}
     <div class="spin-ctr">🎓</div>
   </div>
 
-  <!-- Main content pinned to bottom -->
   <div class="hero-content">
     <div class="h-eyebrow">
       <span class="h-edot"></span>
       Cambridge CAIE · British Council · Dhaka, Bangladesh
     </div>
 
-    <!-- THE NAME — massive, editorial, full width -->
     <h1 class="h-name">
       MD TAKRIM<br/>
       <span class="grad">AREEFIN</span>
@@ -701,7 +663,6 @@ footer a{color:var(--blue);text-decoration:none;}
   </div>
 </section>
 
-<!-- MARQUEE -->
 <div class="mq">
   <div class="mq-inner">
     <div class="mq-item">AI Engineering <span class="mq-dot"></span></div>
@@ -725,7 +686,6 @@ footer a{color:var(--blue);text-decoration:none;}
   </div>
 </div>
 
-<!-- ======================================================  ABOUT ====================================================== -->
 <section id="about">
   <div class="si">
     <div class="about-wrap">
@@ -761,7 +721,6 @@ footer a{color:var(--blue);text-decoration:none;}
   </div>
 </section>
 
-<!-- ====================================================== SKILLS ====================================================== -->
 <section id="skills">
   <div class="si">
     <div class="s-lbl r">// technical skills</div>
@@ -787,7 +746,6 @@ footer a{color:var(--blue);text-decoration:none;}
   </div>
 </section>
 
-<!-- ====================================================== TIMELINE ====================================================== -->
 <section id="timeline">
   <div class="si">
     <div class="s-lbl r">// my journey</div>
@@ -806,7 +764,6 @@ footer a{color:var(--blue);text-decoration:none;}
   </div>
 </section>
 
-<!-- ====================================================== EDUCATION ====================================================== -->
 <section id="education">
   <div class="si">
     <div class="s-lbl r">// education</div>
@@ -835,7 +792,6 @@ footer a{color:var(--blue);text-decoration:none;}
   </div>
 </section>
 
-<!-- ====================================================== GOALS ====================================================== -->
 <section id="goals">
   <div class="si">
     <div class="s-lbl r">// the roadmap</div>
@@ -864,7 +820,6 @@ footer a{color:var(--blue);text-decoration:none;}
   </div>
 </section>
 
-<!-- ====================================================== CONTACT ====================================================== -->
 <section id="contact">
   <div class="si">
     <div class="ct-g">
@@ -892,10 +847,8 @@ footer a{color:var(--blue);text-decoration:none;}
 </footer>
 
 <script>
-// PAGE WIPE
 window.addEventListener('load',()=>{const w=document.getElementById('wipe');if(w)setTimeout(()=>w.remove(),1100);});
 
-// THEME TOGGLE
 (()=>{
   const html=document.documentElement;
   const btn=document.getElementById('tog');
@@ -907,7 +860,6 @@ window.addEventListener('load',()=>{const w=document.getElementById('wipe');if(w
   });
 })();
 
-// CURSOR — ticking rAF, only on mousemove
 (()=>{
   const cur=document.getElementById('cur');
   const ring=document.getElementById('curRing');
@@ -931,10 +883,8 @@ window.addEventListener('load',()=>{const w=document.getElementById('wipe');if(w
   });
 })();
 
-// NAV
 window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('up',scrollY>55),{passive:true});
 
-// SCROLL REVEAL
 (()=>{
   const obs=new IntersectionObserver(entries=>{
     entries.forEach((e,i)=>{
@@ -948,7 +898,6 @@ window.addEventListener('scroll',()=>document.getElementById('nav').classList.to
   document.querySelectorAll('.r').forEach(el=>obs.observe(el));
 })();
 
-// TIMELINE — 2-col stagger
 (()=>{
   const obs=new IntersectionObserver(entries=>{
     entries.forEach((e,i)=>{
@@ -958,7 +907,6 @@ window.addEventListener('scroll',()=>document.getElementById('nav').classList.to
   document.querySelectorAll('.tl-item').forEach(el=>obs.observe(el));
 })();
 
-// SMOOTH ANCHOR
 document.querySelectorAll('a[href^="#"]').forEach(a=>{
   a.addEventListener('click',e=>{
     const t=document.querySelector(a.getAttribute('href'));
